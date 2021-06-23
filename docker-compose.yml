@@ -59,7 +59,7 @@ services:
         - frontend
   
 volumes:
-utorrent-settings:
+  utorrent-settings:
 
 networks:
   frontend:
