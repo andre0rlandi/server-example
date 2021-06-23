@@ -36,29 +36,30 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
-  portainer:
-    image: portainer/portainer-ce:2.0.0
-    container_name: server-portainer
-    command: -H unix:///var/run/docker.sock
+  utorrent:
+    image: ekho/utorrent:latest
+    volumes:
+        - utorrent-settings:/utorrent/settings
+        - ./:/data
+        - ./:/abs-path-dir
+    environment:
+        - UID=1000
+        - GID=1000
+        - webui=ng
+        - dir_autoload_delete=true
+        - dir_download=subdir1,/abs-path-dir
+        - VIRTUAL_HOST=tr.andreorlandi.com.br
+        - LETSENCRYPT_HOST=tr.andreorlandi.com.br
+        - VIRTUAL_PORT=8080
+    ports:
+        - 6881:6881
+        - 6881:6881/udp
     restart: unless-stopped
     networks:
         - frontend
-    environment:
-        - LETSENCRYPT_HOST=portainer.yourdomain.com
-        - VIRTUAL_HOST=portainer.yourdomain.com
-        - VIRTUAL_PORT=9000
-        - SSL=
-        - SSLCERT=/certs/portainer.yourdomain.com.crt
-        - SSLKEY=/certs/portainer.yourdomain.com.key
-    ports:
-        - 8000:8000
-    volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-        - ./proxy/certs:/certs
-        - portainer_data:/data
   
 volumes:
-  portainer_data:
+  utorrent-settings:
 
 networks:
   frontend:
