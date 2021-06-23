@@ -47,10 +47,14 @@ services:
         - LETSENCRYPT_HOST=portainer.yourdomain.com
         - VIRTUAL_HOST=portainer.yourdomain.com
         - VIRTUAL_PORT=9000
+        - SSL=
+        - SSLCERT=/certs/portainer.yourdomain.com.crt
+        - SSLKEY=/certs/portainer.yourdomain.com.key
     ports:
         - 8000:8000
     volumes:
         - /var/run/docker.sock:/var/run/docker.sock
+        - ./proxy/certs:/certs
         - portainer_data:/data
   
 volumes:
